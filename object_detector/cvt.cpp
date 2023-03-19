@@ -5,7 +5,6 @@
 #include <opencv2/highgui.hpp>
 #include "ocv_utils.hpp"
 #include "cvt_utils.hpp"
-#include "hal.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -166,8 +165,6 @@ int main(int argc, char * argv[]) try
     const int GumbyIndex = 0;
     int imageIndx = 0;
 
-
-    cvt::RandomWalk(true);
     cvtState = cvt::State::scanning;
     while (getWindowProperty(kWinName, cv::WND_PROP_AUTOSIZE) >= 0)
     {
@@ -229,15 +226,15 @@ int main(int argc, char * argv[]) try
                 auto fabsAzim = fabs(azimuth);
                 if (fabsElev < cvt::CONE_OF_DEATH_DEGREES && fabsAzim < cvt::CONE_OF_DEATH_DEGREES) {
                     cvtState = cvt::State::firing;
-                    cvt::Fire();
+                    // turret shoot
                     putText(color_mat, "Fire!", cv::Point(width * 9 / 20, height / 2), cv::FONT_HERSHEY_SIMPLEX, 2.0,
                             cv::Scalar(0, 0, 255));
                 } else if (fabsAzim > 2.0f) {
                     cvtState = cvt::State::aligning;
-                    cvt::RotateTurretHorizontal(-1.0f * azimuth);
+                    // turret align
                 } else {
                     cvtState = cvt::State::aligning;
-                    cvt::RotateTurretVertical(elevation);
+                    // turret rotate
                 }
             } else if (cvtState == cvt::State::firing) {
                 std::cout << "check\n";

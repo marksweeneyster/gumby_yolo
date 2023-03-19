@@ -1,7 +1,5 @@
 #ifndef OCV_UTILS_HPP
 #define OCV_UTILS_HPP
-// License: Apache 2.0. See LICENSE file in root directory.
-// Copyright(c) 2017 Intel Corporation. All Rights Reserved.
 
 #include <librealsense2/rs.hpp> // Include RealSense Cross Platform API
 #include <opencv2/opencv.hpp>   // Include OpenCV API

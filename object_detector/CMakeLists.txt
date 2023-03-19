@@ -7,9 +7,6 @@ find_package(OpenCV REQUIRED)
 
 find_package(realsense2)
 
-add_subdirectory(i2c)
-add_subdirectory(cvt_hal)
-
 if(realsense2_FOUND)
     message(STATUS "RS2: ${realsense2_LIBRARY}")
     message(STATUS "RS2: ${realsense2_INCLUDE_DIR}")
