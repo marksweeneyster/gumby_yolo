@@ -18,4 +18,4 @@ YOLOv3 identifies a class by an integer id.  Models used in this project have th
 3. Goo
 4. Prickle
 
-Weight files can be found [here](https://drive.google.com/drive/folders/1Z4tikenkAGshfk9R0B77TEgwZcyqGEE8?usp=sharing).
+~~Weight files can be found [here](https://drive.google.com/drive/folders/1Z4tikenkAGshfk9R0B77TEgwZcyqGEE8?usp=sharing).~~
