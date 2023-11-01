@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <opencv2/core.hpp>
-#include <librealsense2/rs.hpp>
 
 namespace cvt {
 
@@ -66,7 +65,7 @@ namespace cvt {
             return y*vertHalfFOV;
         }
 
-        std::pair<int,int> getCenter() {
+        std::pair<int,int> getCenter() const {
             auto x = fbx.x + static_cast<int>(static_cast<float>(fbx.width)*0.5f + 0.5f);
             auto y = fbx.y + static_cast<int>(static_cast<float>(fbx.height)*0.5f + 0.5f);
             return std::make_pair(x,y);

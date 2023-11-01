@@ -1,25 +1,25 @@
-
-#include <librealsense2/rs.hpp> // Include RealSense Cross Platform API
-#include <opencv2/dnn.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui.hpp>
-#include "ocv_utils.hpp"
 #include "cvt_utils.hpp"
+#include "ocv_utils.hpp"
 #include <iostream>
+#include <librealsense2/rs.hpp>
+#include <opencv2/dnn.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <string>
 #include <vector>
 
 const char* keys =
-        "{help h usage ? | | Usage example: \n\t\t. --config=yolov3.cfg --weights=yolov3.weights --backend=gpu --model=gumby}"
+        "{help h usage ? | | Usage example: \n\t\t. --config=yolov3.cfg "
+        "--weights=yolov3.weights --backend=gpu --model=gumby}"
         "{config c        |yolov3.cfg| input YOLO model config file   }"
         "{weights w       |yolov3.weights| input YOLO model weights file   }"
         "{backend b       |gpu| input backend (cpu or gpu)   }"
         "{model m         |gumby| input YOLO model type (gumby or coco)   }";
 
-int main(int argc, char * argv[]) try
-{
+int main(int argc, char* argv[]) try {
     cv::CommandLineParser parser(argc, argv, keys);
-    parser.about("Application to detect objects with a YOLO model and the Intel RealSense2 camera.");
+    parser.about("Application to detect objects with a YOLO model and the Intel "
+                 "RealSense2 camera.");
     if (parser.has("help") || argc == 1) {
         parser.printMessage();
         return 0;
@@ -52,7 +52,8 @@ int main(int argc, char * argv[]) try
 
     // Start streaming with default recommended configuration
     // The default video configuration contains Depth and Color streams
-    // If a device is capable to stream IMU data, both Gyro and Accelerometer are enabled by default
+    // If a device is capable to stream IMU data, both Gyro and Accelerometer are
+    // enabled by default
     rs2::pipeline_profile profile = pipe.start();
 
     // Block program until frames arrive
@@ -61,7 +62,7 @@ int main(int argc, char * argv[]) try
     auto rgb = frames.get_color_frame();
 
     // Get the depth frame's dimensions
-    auto width  = rgb.get_width();
+    auto width = rgb.get_width();
     auto height = rgb.get_height();
     std::cout << "rows: " << height << ", cols: " << width << '\n';
     float depth_scale = cvt::get_depth_scale(profile.get_device());
@@ -74,8 +75,7 @@ int main(int argc, char * argv[]) try
 
     cv::Mat color_mat, depth_mat, blob;
 
-    while (getWindowProperty(kWinName, cv::WND_PROP_AUTOSIZE) >= 0)
-    {
+    while (getWindowProperty(kWinName, cv::WND_PROP_AUTOSIZE) >= 0) {
         frames = pipe.wait_for_frames();
         frames = align_to_color.process(frames);
 
@@ -92,13 +92,17 @@ int main(int argc, char * argv[]) try
 
              frames = pipe.wait_for_frames();
              auto aligned_frames = align.process(frames);
-             rs2::video_frame aligned_rgb         = aligned_frames.first(RS2_STREAM_COLOR);
-             rs2::depth_frame aligned_depth_frame = aligned_frames.get_depth_frame();
+             rs2::video_frame aligned_rgb         =
+         aligned_frames.first(RS2_STREAM_COLOR); rs2::depth_frame
+         aligned_depth_frame = aligned_frames.get_depth_frame();
          */
 
-        cv::dnn::blobFromImage(color_mat, blob, cvt::BLOB_SCALE, cv::Size(cvt::NET_IMAGE_WIDTH, cvt::NET_IMAGE_HEIGHT), cv::Scalar(0,0,0), true, false);
+        cv::dnn::blobFromImage(
+                color_mat, blob, cvt::BLOB_SCALE,
+                cv::Size(cvt::NET_IMAGE_WIDTH, cvt::NET_IMAGE_HEIGHT),
+                cv::Scalar(0, 0, 0), true, false);
 
-        //Sets the input to the network
+        // Sets the input to the network
         net.setInput(blob);
 
         // Runs the forward pass to get output of the output layers
@@ -108,28 +112,27 @@ int main(int argc, char * argv[]) try
         // Remove the bounding boxes with low confidence
         cvt::postprocess(color_mat, outs, true, depth_mat, depth_scale);
 
-        // Put efficiency information. The function getPerfProfile returns the overall time for inference(t) and the timings for each of the layers(in layersTimes)
+        // Put efficiency information. The function getPerfProfile returns the
+        // overall time for inference(t) and the timings for each of the layers(in
+        // layersTimes)
         std::vector<double> layersTimes;
         double freq = cv::getTickFrequency() * 0.001;
         double t = static_cast<double>(net.getPerfProfile(layersTimes)) / freq;
         std::string label = cv::format("Inference time for a frame : %.2f ms", t);
-        putText(color_mat, label, cv::Point(0, 15), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255));
+        putText(color_mat, label, cv::Point(0, 15), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Scalar(0, 0, 255));
 
         imshow(kWinName, color_mat);
-        if (cv::waitKey(1) >= 0) break;
+        if (cv::waitKey(1) >= 0)
+            break;
     }
 
     return EXIT_SUCCESS;
-}
-catch (const rs2::error & e)
-{
-    std::cerr << "RealSense error calling " << e.get_failed_function() << "(" << e.get_failed_args() << "):\n    " << e.what() << std::endl;
+} catch (const rs2::error& e) {
+    std::cerr << "RealSense error calling " << e.get_failed_function() << "("
+              << e.get_failed_args() << "):\n    " << e.what() << std::endl;
     return EXIT_FAILURE;
-}
-catch (const std::exception& e)
-{
+} catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
 }
-
-

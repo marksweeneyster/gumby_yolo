@@ -65,6 +65,9 @@ int main(int argc, char * argv[]) try {
             } catch(...) {
                 continue;
             }
+            if ( color_mat.empty() ) {
+                continue;
+            }
 
             cv::dnn::blobFromImage(color_mat, blob, cvt::BLOB_SCALE,
                                    cv::Size(cvt::NET_IMAGE_WIDTH, cvt::NET_IMAGE_HEIGHT),

@@ -21,33 +21,35 @@ if(realsense2_FOUND)
             ${OpenCV_LIBS}
     )
 
-    add_executable(cvt cvt.cpp)
-    target_include_directories(cvt PUBLIC
-            ocv_utilities
-            cvt_hal
-    )
-    target_link_libraries(cvt PUBLIC
-            ${realsense2_LIBRARY}
-            ${OpenCV_LIBS}
-            cvt_hal
-    )
-else()
+    if (HAVE_CVT_HAL)
+        add_executable(cvt cvt.cpp)
+        target_include_directories(cvt PUBLIC
+                ocv_utilities
+                cvt_hal
+        )
+        target_link_libraries(cvt PUBLIC
+                ${realsense2_LIBRARY}
+                ${OpenCV_LIBS}
+                cvt_hal
+        )
+    endif(HAVE_CVT_HAL)
+else(realsense2_FOUND)
     message(STATUS "Not building the RealSense app")
-endif()
+endif(realsense2_FOUND)
 
-#add_executable(ocv_obj_detector webcam_main.cpp)
-#target_include_directories(ocv_obj_detector PUBLIC
-#        ocv_utilities
-#)
-#target_link_libraries(ocv_obj_detector PUBLIC
-#        ${OpenCV_LIBS}
-#)
-#
-#add_executable(ocv_fr_obj_detector file_reader_main.cpp)
-#target_include_directories(ocv_fr_obj_detector PUBLIC
-#        ocv_utilities
-#)
-#target_link_libraries(ocv_fr_obj_detector PUBLIC
-#        ${OpenCV_LIBS}
-#)
-#
+add_executable(ocv_obj_detector webcam_main.cpp)
+target_include_directories(ocv_obj_detector PUBLIC
+        ocv_utilities
+)
+target_link_libraries(ocv_obj_detector PUBLIC
+        ${OpenCV_LIBS}
+)
+
+add_executable(ocv_fr_obj_detector file_reader_main.cpp)
+target_include_directories(ocv_fr_obj_detector PUBLIC
+        ocv_utilities
+)
+target_link_libraries(ocv_fr_obj_detector PUBLIC
+        ${OpenCV_LIBS}
+)
+
