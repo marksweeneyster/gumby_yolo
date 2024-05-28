@@ -5,3 +5,5 @@ There are two projects
     1. *ocv_obj_detector* that uses a webcam and displays class confidence values
     2. *ocv_fr_obj_detector* that does the same with image files read from a directory
     3. *ocv_rs2_obj_detector* that uses an Intel RealSense2 camera that will also display distance to found objects 
+
+![Gumby_and_Friends](gnf60_Color.jpeg)
