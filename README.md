@@ -7,3 +7,5 @@ There are two projects
     3. *ocv_rs2_obj_detector* that uses an Intel RealSense2 camera that will also display distance to found objects 
 
 ![Gumby_and_Friends](gnf60_Color.jpeg)
+
+[Video link](https://vimeo.com/952154181?share=copy)
