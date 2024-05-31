@@ -2,7 +2,7 @@
 
 ## To build
 
-You'll need opencv and realsense2 installed and pont cmake to dirs holding their respective *Config.cmake files:
+You'll need opencv and realsense2 installed and point cmake to dirs holding their respective *Config.cmake files:
 ```asm
 mkdir .build && cd .build
 cmake .. -DOpenCV_DIR=<path to OpenCVConfig.cmake> -Drealsense2_DIR=<path to realsense2Config.cmake>

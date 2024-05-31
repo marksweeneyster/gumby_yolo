@@ -46,7 +46,7 @@ namespace cvt {
             "scissors",     "teddybear",    "hairdrier",    "toothbrush"};
 
 // The last 3 classes are intended to prevent Gumby and Pokey false positives.
-// We may want to remove them from this list, so we only report a Gumbey or a
+// We may want to remove them from this list, so we only report a Gumby or a
 // Pokey.
     static const std::vector<std::string> GUMBY_CLASS_LABELS{
             "Gumby", "Pokey", "Minga", "Goo", "Prickle"};
